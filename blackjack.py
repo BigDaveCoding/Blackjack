@@ -28,19 +28,10 @@ class Player:
         else:
             player_choice = input('It\'s your turn: Hit / Stand / Double Down : ')
         
-        # for choice in turn_choices:
-        #     if player_choice.lower().split() == choice.lower().split():
-        #         print('You chose to {}'.format(player_choice))
-        #         break
-        #     else:
-        #         player_choice = input('Please try again: ')
-
         while player_choice.lower() not in turn_choices:
             player_choice = input('Please try again: ')
         if player_choice in turn_choices:
             print('You chose to {}'.format(player_choice))
-        
-            
         
         return player_choice
     
