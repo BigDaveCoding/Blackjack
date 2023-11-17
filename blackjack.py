@@ -5,7 +5,7 @@ class Player:
     #Will have various functions throughout that will control the flow of the game
     player_total = 0
     dealer_total = 0
-    values_of_cards = {'Two':2, 'Three':3, 'Four':4, 'Five':5, 'Six':6, 'Seven':7, 'Eight':8, 'Nine':9, 'Ten':10, 'Jack':10, 'Queen':10, 'King':10}
+    values_of_cards = {'Ace': 11, 'Two':2, 'Three':3, 'Four':4, 'Five':5, 'Six':6, 'Seven':7, 'Eight':8, 'Nine':9, 'Ten':10, 'Jack':10, 'Queen':10, 'King':10}
     value_of_ace = [1, 11]
 
     def __init__(self, name, money = 100, bet_amount = 0, cards = None, card_total = 0, rounds_won = 0, rounds_lost = 0, is_dealer = False):
@@ -30,9 +30,9 @@ class Player:
     def player_turn(self):
         turn_choices = ['hit', 'stand', 'double down', 'split']
         if self.cards[0] == self.cards[1]:
-            player_choice = input('It\'s your turn: Hit / Stand / Double Down / Split : ')
+            player_choice = input('It\'s your turn: Hit or Stand? : ')
         else:
-            player_choice = input('It\'s your turn: Hit / Stand / Double Down : ')
+            player_choice = input('It\'s your turn: Hit or Stand? : ')
         
         while player_choice.lower() not in turn_choices:
             player_choice = input('Please try again: ')
@@ -48,15 +48,23 @@ class Player:
             for key, value in Player.values_of_cards.items():
                 if card == key:
                     self.card_total += value
-        if 'Ace' in cards:
-            if self.card_total + Player.value_of_ace[1] <= 20:
-                return 'You have an Ace, your total is either: {total_one} or {total_two}'.format(total_one = self.card_total + Player.value_of_ace[0], total_two = self.card_total + Player.value_of_ace[1])
-            elif self.card_total + Player.value_of_ace[1] == 21:
-                return 'You have 21!'
-            else:
-                return 'The total of your cards is {}'.format(self.card_total + Player.value_of_ace[0])
+        # if 'Ace' in cards:
+        #     if self.card_total + Player.value_of_ace[1] <= 20:
+        #         return 'You have an Ace, your total is either: {total_one} or {total_two}'.format(total_one = self.card_total + Player.value_of_ace[0], total_two = self.card_total + Player.value_of_ace[1])
+        #     elif self.card_total + Player.value_of_ace[1] == 21:
+        #         return 'You have 21!'
+        #     else:
+        #         return 'The total of your cards is {}'.format(self.card_total + Player.value_of_ace[0])
                  
         return 'The total of your cards is: {}'.format(self.card_total)
+    
+    def double_down(self, current_hand, cardsinplay):
+        hand_one = [current_hand[0]]
+        hand_two = [current_hand[1]]
+        return 'First hand: {hand_one}\nSecond hand: {hand_two}'.format(hand_one=hand_one, hand_two=hand_two)
+        
+
+
 
     def player_win(self, amount):
         pass
@@ -92,24 +100,33 @@ class CardsInPlay:
 cards = CardsInPlay(random.randrange(1, 5))
 dealer = Player('Dealer', 0, is_dealer = True)
 player = Player('Dave')
-#delaer gets first card
+
+#dealer gets first card
 print(dealer.deal_cards(cards))
 #player gets dealt two cards
-player.deal_cards(cards)
+# player.deal_cards(cards)
+player.cards.append('Ace')
 print(player.deal_cards(cards))
 #print sum of the two cards
 print(player.sum_cards(player.cards))
 #creating variable to store player choice
-player_turn = player.player_turn()
+
+while player.card_total < 21:
+    player_turn = player.player_turn()
+    if player.card_total == 21:
+        print('You have 21')
+        break
+    if player_turn == 'hit':
+        print(player.deal_cards(cards))
+        print(player.sum_cards(player.cards))
+    if player_turn == 'stand':
+        break
 
 
-if player_turn == 'hit':
-    print(player.deal_cards(cards))
-    print(player.sum_cards(player.cards))
 
-if player.card_total == 21:
-    pass
 
-if player.card_total <= 20:
+
+
+if player.card_total > 21:
     pass
     
