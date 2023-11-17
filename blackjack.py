@@ -20,10 +20,14 @@ class Player:
     def deal_cards(self, card):
         self.cards.append(card.get_random_card())
         return "{name}'s cards: {cards}".format(name=self.name, cards=self.cards)
+    
+    def player_turn(self):
+        if self.cards[0] == self.cards[1]:
+            player_choice = input('It\'s your turn: Hit / Stand / Double Down / Split : ')
+        player_choice = input('It\'s your turn: Hit / Stand / Double Down : ')
+        return player_choice
 
 
-    def player_turn(self, turn):
-        pass
     def player_win(self, amount):
         pass
     def player_lose(self, amount):
@@ -60,5 +64,7 @@ dealer = Player('Dealer', 0, is_dealer = True)
 player = Player('Dave')
 
 print(dealer.deal_cards(cards))
+player.deal_cards(cards)
 print(player.deal_cards(cards))
+player.player_turn()
 
