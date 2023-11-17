@@ -101,6 +101,7 @@ cards = CardsInPlay(random.randrange(1, 5))
 dealer = Player('Dealer', 0, is_dealer = True)
 player = Player('Dave')
 
+
 #dealer gets first card
 print(dealer.deal_cards(cards))
 #player gets dealt two cards
@@ -109,8 +110,8 @@ player.cards.append('Ace')
 print(player.deal_cards(cards))
 #print sum of the two cards
 print(player.sum_cards(player.cards))
-#creating variable to store player choice
 
+#Will loop whilst the players card total is less than 21 or they choose to stand.
 while player.card_total < 21:
     player_turn = player.player_turn()
     if player.card_total == 21:
@@ -121,11 +122,6 @@ while player.card_total < 21:
         print(player.sum_cards(player.cards))
     if player_turn == 'stand':
         break
-
-
-
-
-
 
 if player.card_total > 21:
     pass
