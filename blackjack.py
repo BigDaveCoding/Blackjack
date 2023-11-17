@@ -3,11 +3,16 @@ import random
 class Player:
     #creating a player class that will track various player variables. 
     #Will have various functions throughout that will control the flow of the game
-    def __init__(self, name, money = 100, bet_amount = 0, cards = None, rounds_won = 0, rounds_lost = 0, is_dealer = False):
+    player_total = 0
+    dealer_total = 0
+    values_of_cards = {'Ace': 1, 'Two':2, 'Three':3, 'Four':4, 'Five':5, 'Six':6, 'Seven':7, 'Eight':8, 'Nine':9, 'Ten':10, 'Jack':10, 'Queen':10, 'King':10}
+
+    def __init__(self, name, money = 100, bet_amount = 0, cards = None, card_total = 0, rounds_won = 0, rounds_lost = 0, is_dealer = False):
         self.name = name
         self.money = money
         self.bet_amount = bet_amount
         self.cards = cards or []
+        self.card_total = card_total
         self.rounds_won = rounds_won
         self.rounds_lost = rounds_lost
         self.is_dealer = is_dealer
@@ -35,8 +40,15 @@ class Player:
         
         return player_choice
     
-    def hit(self, player_choice):
-        pass
+    
+    def sum_cards(self, cards):
+        for card in cards:
+            for key, value in Player.values_of_cards.items():
+                if card == key:
+                    self.card_total += value
+        return 'The total of your cards is: {}'.format(self.card_total)
+                    
+            
         
 
         
@@ -79,5 +91,8 @@ player = Player('Dave')
 print(dealer.deal_cards(cards))
 player.deal_cards(cards)
 print(player.deal_cards(cards))
+print(player.sum_cards(player.cards))
 player_turn = player.player_turn()
 
+if player_turn == 'hit':
+    player.deal_cards(cards)
