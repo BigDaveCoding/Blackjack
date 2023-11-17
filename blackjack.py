@@ -22,11 +22,33 @@ class Player:
         return "{name}'s cards: {cards}".format(name=self.name, cards=self.cards)
     
     def player_turn(self):
+        turn_choices = ['hit', 'stand', 'double down', 'split']
         if self.cards[0] == self.cards[1]:
             player_choice = input('It\'s your turn: Hit / Stand / Double Down / Split : ')
-        player_choice = input('It\'s your turn: Hit / Stand / Double Down : ')
-        return player_choice
+        else:
+            player_choice = input('It\'s your turn: Hit / Stand / Double Down : ')
+        
+        # for choice in turn_choices:
+        #     if player_choice.lower().split() == choice.lower().split():
+        #         print('You chose to {}'.format(player_choice))
+        #         break
+        #     else:
+        #         player_choice = input('Please try again: ')
 
+        while player_choice.lower() not in turn_choices:
+            player_choice = input('Please try again: ')
+        if player_choice in turn_choices:
+            print('You chose to {}'.format(player_choice))
+        
+            
+        
+        return player_choice
+    
+    def hit(self, player_choice):
+        pass
+        
+
+        
 
     def player_win(self, amount):
         pass
@@ -66,5 +88,5 @@ player = Player('Dave')
 print(dealer.deal_cards(cards))
 player.deal_cards(cards)
 print(player.deal_cards(cards))
-player.player_turn()
+player_turn = player.player_turn()
 
