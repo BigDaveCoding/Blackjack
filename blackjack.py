@@ -63,7 +63,7 @@ class Player:
             return 'It\'s a tie! '
         if self.card_total > dealer.card_total:
             self.money += amount
-            return 'You Win! You have £{}.'.format(amount * 2)
+            return 'You Win! You won £{}.'.format(amount * 2)
         if self.card_total < dealer.card_total:
             self.money -= amount
             return 'You Lose! :( You lost £{}.'.format(amount)
@@ -123,56 +123,61 @@ player = Player('Dave')
 
 player_lost = False
 
-#Player places bet
 while True:
-    try:
-        bet_amount = int(input('You have £{money}. How much would you like to bet? £'.format(money=player.money)))
-        if bet_amount <= player.money:
-            break  # exit the loop if the conversion is successful
-        else: 
-            print('You don\'t have that much money :(')
-    except ValueError:
-        print("Invalid input.")
-#dealer gets first card
-print(dealer.deal_cards(cards))
-#player gets dealt two cards
-player.deal_cards(cards)
-# player.cards.append('Ace')
-print(player.deal_cards(cards))
-#print sum of the two cards
-print(player.sum_cards(player.cards))
-
-#Will loop whilst the players card total is less than 21 or they choose to stand.
-while player.card_total < 21:
-    player_turn = player.player_turn()
-    if player.card_total == 21:
-        print('You have 21')
-        break
-    if player_turn == 'hit':
-        print(player.deal_cards(cards))
-        print(player.sum_cards(player.cards))
-    if player_turn == 'stand':
-        break
-
-if player.card_total == 21:
-    print('You have 21! Let\'s see what the dealer draws')
-
-
-if player.card_total > 21:
-    player_lost = True
-
-if player_lost is not True:
+    #Player places bet
+    while True:
+        try:
+            bet_amount = int(input('You have £{money}. How much would you like to bet? £'.format(money=player.money)))
+            if bet_amount <= player.money:
+                break  # exit the loop if the conversion is successful
+            else: 
+                print('You don\'t have that much money :(')
+        except ValueError:
+            print("Invalid input.")
+    #dealer gets first card
     print(dealer.deal_cards(cards))
-    print(dealer.sum_cards(dealer.cards))
+    #player gets dealt two cards
+    player.deal_cards(cards)
+    # player.cards.append('Ace')
+    print(player.deal_cards(cards))
+    #print sum of the two cards
+    print(player.sum_cards(player.cards))
 
-    while dealer.card_total < 17:
+    #Will loop whilst the players card total is less than 21 or they choose to stand.
+    while player.card_total < 21:
+        player_turn = player.player_turn()
+        if player.card_total == 21:
+            print('You have 21')
+            break
+        if player_turn == 'hit':
+            print(player.deal_cards(cards))
+            print(player.sum_cards(player.cards))
+        if player_turn == 'stand':
+            break
+
+    if player.card_total == 21:
+        print('You have 21! Let\'s see what the dealer draws')
+
+
+    if player.card_total > 21:
+        player_lost = True
+
+    if player_lost is not True:
         print(dealer.deal_cards(cards))
         print(dealer.sum_cards(dealer.cards))
-    if dealer.card_total >= 17:
-        print(player.who_wins(dealer, bet_amount))
-    
-else:
-    print('Better luck next time')
+
+        while dealer.card_total < 17:
+            print(dealer.deal_cards(cards))
+            print(dealer.sum_cards(dealer.cards))
+        if dealer.card_total >= 17:
+            print(player.who_wins(dealer, bet_amount))
+        
+    else:
+        print('Better luck next time')
+
+    if not play_again(player, dealer):
+        print('Thanks for playing!')
+        break
 
 
     
