@@ -67,6 +67,10 @@ class Player:
         if self.card_total < dealer.card_total:
             self.money -= amount
             return 'You Lose! :( You lost £{}.'.format(amount)
+        
+    def play_again(self):
+        self.cards = []
+        self.card_total = 0
 
 
     def player_win(self, amount):
@@ -100,7 +104,18 @@ class CardsInPlay:
     
     def __repr__(self):
         return 'There are {decks} decks in play. Here is each card and how many of each card there is: {dict}'.format(decks=self.decks, dict=self.card_amount)
-    
+
+def play_again(player, dealer):
+    while True:
+        again = input('Do you want to play again? (yes/no): ').lower()
+        if again == 'yes':
+            player.play_again()
+            dealer.play_again()
+            return True
+        elif again == 'no':
+            return False
+        else:
+            print('Invalid input. Please enter either "yes" or "no".')
 
 cards = CardsInPlay(random.randrange(1, 5))
 dealer = Player('Dealer', 0, is_dealer = True)
