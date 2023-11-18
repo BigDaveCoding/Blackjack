@@ -56,7 +56,7 @@ class Player:
         #     else:
         #         return 'The total of your cards is {}'.format(self.card_total + Player.value_of_ace[0])
                  
-        return 'The total of your cards is: {}'.format(self.card_total)
+        return 'The total of {name}\'s cards is: {total}'.format(name = self.name, total = self.card_total)
     
     def double_down(self, current_hand, cardsinplay):
         hand_one = [current_hand[0]]
@@ -101,6 +101,8 @@ cards = CardsInPlay(random.randrange(1, 5))
 dealer = Player('Dealer', 0, is_dealer = True)
 player = Player('Dave')
 
+player_lost = False
+
 
 #dealer gets first card
 print(dealer.deal_cards(cards))
@@ -123,6 +125,19 @@ while player.card_total < 21:
     if player_turn == 'stand':
         break
 
+if player.card_total == 21:
+    print('You have 21! Let\'s see what the dealer draws')
+
+
 if player.card_total > 21:
-    pass
+    player_lost = True
+
+if player_lost is not True:
+    dealer.deal_cards(cards)
+    print(dealer.sum_cards(dealer.cards))
+
+else:
+    print('Better luck next time')
+
+
     
