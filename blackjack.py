@@ -47,28 +47,33 @@ class Player:
         for card in cards:
             for key, value in Player.values_of_cards.items():
                 if card == key:
-                    self.card_total += value
-        # if 'Ace' in cards:
-        #     if self.card_total + Player.value_of_ace[1] <= 20:
-        #         return 'You have an Ace, your total is either: {total_one} or {total_two}'.format(total_one = self.card_total + Player.value_of_ace[0], total_two = self.card_total + Player.value_of_ace[1])
-        #     elif self.card_total + Player.value_of_ace[1] == 21:
-        #         return 'You have 21!'
-        #     else:
-        #         return 'The total of your cards is {}'.format(self.card_total + Player.value_of_ace[0])
-                 
+                    self.card_total += value         
         return 'The total of {name}\'s cards is: {total}'.format(name = self.name, total = self.card_total)
     
     def double_down(self, current_hand, cardsinplay):
         hand_one = [current_hand[0]]
         hand_two = [current_hand[1]]
         return 'First hand: {hand_one}\nSecond hand: {hand_two}'.format(hand_one=hand_one, hand_two=hand_two)
-        
-
+    
+    def who_wins(self, dealer, amount):
+        if dealer.card_total > 21:
+            self.money += amount
+            return 'You Win! You won £{}'.format(amount * 2)
+        if self.card_total == dealer.card_total:
+            return 'It\'s a tie! '
+        if self.card_total > dealer.card_total:
+            self.money += amount
+            return 'You Win! You have £{}.'.format(amount * 2)
+        if self.card_total < dealer.card_total:
+            self.money -= amount
+            return 'You Lose! :( You lost £{}.'.format(amount)
 
 
     def player_win(self, amount):
         pass
     def player_lose(self, amount):
+        pass
+    def tie(self, amount):
         pass
     
 class CardsInPlay:
@@ -103,12 +108,21 @@ player = Player('Dave')
 
 player_lost = False
 
-
+#Player places bet
+while True:
+    try:
+        bet_amount = int(input('You have £{money}. How much would you like to bet? £'.format(money=player.money)))
+        if bet_amount <= player.money:
+            break  # exit the loop if the conversion is successful
+        else: 
+            print('You don\'t have that much money :(')
+    except ValueError:
+        print("Invalid input. Please try again: £")
 #dealer gets first card
 print(dealer.deal_cards(cards))
 #player gets dealt two cards
-# player.deal_cards(cards)
-player.cards.append('Ace')
+player.deal_cards(cards)
+# player.cards.append('Ace')
 print(player.deal_cards(cards))
 #print sum of the two cards
 print(player.sum_cards(player.cards))
@@ -133,9 +147,15 @@ if player.card_total > 21:
     player_lost = True
 
 if player_lost is not True:
-    dealer.deal_cards(cards)
+    print(dealer.deal_cards(cards))
     print(dealer.sum_cards(dealer.cards))
 
+    while dealer.card_total < 17:
+        print(dealer.deal_cards(cards))
+        print(dealer.sum_cards(dealer.cards))
+    if dealer.card_total >= 17:
+        print(player.who_wins(dealer, bet_amount))
+    
 else:
     print('Better luck next time')
 
