@@ -117,7 +117,7 @@ while True:
         else: 
             print('You don\'t have that much money :(')
     except ValueError:
-        print("Invalid input. Please try again: £")
+        print("Invalid input.")
 #dealer gets first card
 print(dealer.deal_cards(cards))
 #player gets dealt two cards
