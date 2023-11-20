@@ -46,7 +46,7 @@ class Player:
         #Might be worth giving this function one parameter of the value of each card in the players hand and checking if its an ace
         #This way I can return the totals and store them in variables
         #Also means that the function can be reused if the player decides to hit in the game
-        
+
         total_one = 0
         total_two = 0
 
@@ -58,13 +58,20 @@ class Player:
                 if card == key and key != 'Ace':
                     total_one += value
                     total_two += value
+
+        if total_two == 21:
+            self.card_total = 21
+            return self.card_total
     
         if total_one < 21 and total_two < 21:
-            return 'Card total is either: {one} or {two}'.format(one = total_one, two = total_two)
+            return [total_one, total_two]
+            # return 'Card total is either: {one} or {two}'.format(one = total_one, two = total_two)
         if total_one < 21:
-            return 'Card total is {}'.format(total_one)
+            return [total_one]
+            # return 'Card total is {}'.format(total_one)
         if total_two < 21:
-            return 'Card total is {}'.format(total_two)
+            return [total_two]
+            # return 'Card total is {}'.format(total_two)
     
     
     def sum_cards(self, cards):
@@ -165,7 +172,8 @@ while True:
     #player gets dealt two cards
     # player.deal_cards(cards)
     player.cards.append('Ace')
-    print(player.deal_cards(cards))
+    player.cards.append('Two')
+    # print(player.deal_cards(cards))
 
 
     #print sum of the two cards
@@ -173,13 +181,27 @@ while True:
 
     if 'Ace' in player.cards:
         player_has_ace = True
-        player.has_ace(player.cards)
-        print('you have an ace')
+        player_ace_values = player.has_ace(player.cards)
+        # if player_ace_values == 21:
+        print('{name}\'s cards: {cards}'.format(name=player.name, cards=player.cards))
+        
+        
+        
     else:
+        player_has_ace = False
         print(player.sum_cards(player.cards))
 
-    if player_has_ace:
-        print(player.has_ace(player.cards))
+    if player_has_ace and player.card_total != 21:
+        #put code here for if player has an ace
+        if len(player_ace_values) > 1:
+                print('You have a choice between: {}'.format(player_ace_values))
+        if len(player_ace_values) == 1:
+                print('Card total is: {}'.format(player_ace_values))
+        
+        player_choice = input('Hit or Stand? ')
+
+        
+
     else:
         #Will loop whilst the players card total is less than 21 or they choose to stand.
         while player.card_total < 21:
@@ -211,6 +233,7 @@ while True:
             print(player.who_wins(dealer, bet_amount))
         
     else:
+        #need to add functions here for if the players total is over 21
         print('Better luck next time')
 
     if not play_again(player, dealer):
