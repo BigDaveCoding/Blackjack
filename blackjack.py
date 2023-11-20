@@ -197,9 +197,16 @@ while True:
                 print('You have a choice between: {}'.format(player_ace_values))
         if len(player_ace_values) == 1:
                 print('Card total is: {}'.format(player_ace_values))
-        
-        player_choice = input('Hit or Stand? ')
 
+        player_turn = player.player_turn()
+        if player_turn == 'hit':
+            print(player.deal_cards(cards))
+            
+
+        
+    # player_choice = input('Hit or Stand? ')
+
+    # if player_choice.lower() == 'hit':
         
 
     else:
