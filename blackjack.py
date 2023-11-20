@@ -42,13 +42,14 @@ class Player:
         return player_choice
     
     def has_ace(self, cards):
+        #working on a function that returns 2 different values because the player has an ace which is worth 1 or 11
+        #Might be worth giving this function one parameter of the value of each card in the players hand and checking if its an ace
+        #This way I can return the totals and store them in variables
+        #Also means that the function can be reused if the player decides to hit in the game
+        
         total_one = 0
         total_two = 0
 
-        # for card in cards:
-        #     if card != 'Ace':
-        #         return
-            
         for card in cards:
             if card == 'Ace':
                 total_one +=1
@@ -59,7 +60,7 @@ class Player:
                     total_two += value
     
         if total_one < 21 and total_two < 21:
-            return 'Sum of your cards is either: {one} or {two}'.format(one = total_one, two = total_two)
+            return 'Card total is either: {one} or {two}'.format(one = total_one, two = total_two)
         if total_one < 21:
             return 'Card total is {}'.format(total_one)
         if total_two < 21:
