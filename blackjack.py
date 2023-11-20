@@ -175,6 +175,8 @@ while True:
     player.cards.append('Two')
     # print(player.deal_cards(cards))
 
+    
+
 
     #print sum of the two cards
     # print(player.sum_cards(player.cards))
