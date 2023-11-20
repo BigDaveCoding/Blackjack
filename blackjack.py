@@ -41,6 +41,30 @@ class Player:
         
         return player_choice
     
+    def has_ace(self, cards):
+        total_one = 0
+        total_two = 0
+
+        # for card in cards:
+        #     if card != 'Ace':
+        #         return
+            
+        for card in cards:
+            if card == 'Ace':
+                total_one +=1
+                total_two += 11
+            for key, value in Player.values_of_cards.items():
+                if card == key and key != 'Ace':
+                    total_one += value
+                    total_two += value
+    
+        if total_one < 21 and total_two < 21:
+            return 'Sum of your cards is either: {one} or {two}'.format(one = total_one, two = total_two)
+        if total_one < 21:
+            return 'Card total is {}'.format(total_one)
+        if total_two < 21:
+            return 'Card total is {}'.format(total_two)
+    
     
     def sum_cards(self, cards):
         self.card_total = 0
@@ -122,6 +146,7 @@ dealer = Player('Dealer', 0, is_dealer = True)
 player = Player('Dave')
 
 player_lost = False
+player_has_ace = False
 
 while True:
     #Player places bet
@@ -137,23 +162,35 @@ while True:
     #dealer gets first card
     print(dealer.deal_cards(cards))
     #player gets dealt two cards
-    player.deal_cards(cards)
-    # player.cards.append('Ace')
+    # player.deal_cards(cards)
+    player.cards.append('Ace')
     print(player.deal_cards(cards))
-    #print sum of the two cards
-    print(player.sum_cards(player.cards))
 
-    #Will loop whilst the players card total is less than 21 or they choose to stand.
-    while player.card_total < 21:
-        player_turn = player.player_turn()
-        if player.card_total == 21:
-            print('You have 21')
-            break
-        if player_turn == 'hit':
-            print(player.deal_cards(cards))
-            print(player.sum_cards(player.cards))
-        if player_turn == 'stand':
-            break
+
+    #print sum of the two cards
+    # print(player.sum_cards(player.cards))
+
+    if 'Ace' in player.cards:
+        player_has_ace = True
+        player.has_ace(player.cards)
+        print('you have an ace')
+    else:
+        print(player.sum_cards(player.cards))
+
+    if player_has_ace:
+        print(player.has_ace(player.cards))
+    else:
+        #Will loop whilst the players card total is less than 21 or they choose to stand.
+        while player.card_total < 21:
+            player_turn = player.player_turn()
+            if player.card_total == 21:
+                print('You have 21')
+                break
+            if player_turn == 'hit':
+                print(player.deal_cards(cards))
+                print(player.sum_cards(player.cards))
+            if player_turn == 'stand':
+                break
 
     if player.card_total == 21:
         print('You have 21! Let\'s see what the dealer draws')
